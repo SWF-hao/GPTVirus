@@ -339,3 +339,52 @@ class GPT(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1)
 
         return idx
+
+if __name__ == "__main__":
+    # Test configuration
+    config = GPTConfig(
+        block_size=128,
+        vocab_size=10000,
+        n_layer=6,
+        n_head=6,
+        n_embd=384,
+        dropout=0.1,
+        species_vocab_size=100,
+        use_species_embeddings=True
+    )
+    
+    # Create model
+    model = GPT(config)
+    
+    # Create test inputs
+    batch_size = 4
+    seq_len = 16
+    vocab_size = config.vocab_size
+    species_vocab_size = config.species_vocab_size
+    
+    # Generate random inputs
+    idx = torch.randint(0, vocab_size, (batch_size, seq_len))
+    targets = torch.randint(0, vocab_size, (batch_size, seq_len))
+    species_ids = torch.randint(0, species_vocab_size, (batch_size, seq_len))
+    
+    # Test forward pass
+    logits, loss = model(idx, targets=targets, species_ids=species_ids)
+    print(f"Logits shape: {logits.shape}")  # Should be (batch_size, seq_len, vocab_size)
+    print(f"Loss: {loss.item()}")  # Should be a scalar value
+    
+    # Test generation
+    start_idx = torch.randint(0, vocab_size, (1, 1))
+    generated = model.generate(start_idx, max_new_tokens=10)
+    print(f"Generated sequence: {generated}")
+    
+    # Test compilation
+    try:
+        compiled_model = torch.compile(model)
+        print("Model compiled successfully!")
+        
+        # Test compiled forward pass
+        compiled_logits, compiled_loss = compiled_model(idx, targets=targets, species_ids=species_ids)
+        print(f"Compiled logits shape: {compiled_logits.shape}")
+        print(f"Compiled loss: {compiled_loss.item()}")
+    except Exception as e:
+        print(f"Compilation failed: {e}")

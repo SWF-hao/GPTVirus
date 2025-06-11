@@ -109,6 +109,7 @@ This downloads and tokenizes the [OpenWebText](https://huggingface.co/datasets/o
 
 ```sh
 torchrun --standalone --nproc_per_node=8 train.py config/train_gpt2.py
+torchrun --standalone --nproc_per_node=3 train_virus.py config/train_gpt2_virus.py
 ```
 
 This will run for about 4 days using PyTorch Distributed Data Parallel (DDP) and go down to loss of ~2.85. Now, a GPT-2 model just evaluated on OWT gets a val loss of about 3.11, but if you finetune it it will come down to ~2.85 territory (due to an apparent domain gap), making the two models ~match.

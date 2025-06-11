@@ -17,7 +17,6 @@ $ torchrun --nproc_per_node=8 --nnodes=2 --node_rank=1 --master_addr=123.456.123
 """
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 import time
 import math
 import pickle
@@ -42,11 +41,11 @@ always_save_checkpoint = True # if True, always save a checkpoint after each eva
 init_from = 'scratch' # 'scratch' or 'resume' or 'gpt2*'
 # wandb logging
 wandb_log = True # disabled by default
-wandb_project = 'owt'
-wandb_run_name = 'gpt2' # 'run' + str(time.time())
+wandb_project = 'gpt_virus'
+wandb_run_name = 'gpt2-m' # 'run' + str(time.time())
 # data
 # dataset = 'openwebtext'
-dataset = 'virus-v3' # 'openwebtext', 'openwebtext2', 'virus', etc.
+dataset = 'virus-v3-mini' # 'openwebtext', 'openwebtext2', 'virus', etc.
 gradient_accumulation_steps = 5 * 8 # used to simulate larger batch sizes
 batch_size = 12 # if gradient_accumulation_steps > 1, this is the micro-batch size
 block_size = 1024
@@ -84,7 +83,7 @@ config = {k: globals()[k] for k in config_keys} # will be useful for logging
 # various inits, derived attributes, I/O setup
 ddp = int(os.environ.get('RANK', -1)) != -1 # is this a ddp run?
 print(f"ddp={ddp}, device={device}, dtype={dtype}, compile={compile}")
-
+print("gradient_accumulation_steps:", gradient_accumulation_steps)
 # ddp = True
 if ddp:
     init_process_group(backend=backend)

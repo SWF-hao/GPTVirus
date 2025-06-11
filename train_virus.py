@@ -50,9 +50,19 @@ gradient_accumulation_steps = 5 * 8 # used to simulate larger batch sizes
 batch_size = 12 # if gradient_accumulation_steps > 1, this is the micro-batch size
 block_size = 1024
 # model
-n_layer = 12
-n_head = 12
-n_embd = 768
+model_type = 'gpt2-medium' # 'gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', or 'gpt2-124M'
+
+config_args = {
+    'gpt2':         dict(n_layer=12, n_head=12, n_embd=768),  # 124M params
+    'gpt2-medium':  dict(n_layer=24, n_head=16, n_embd=1024), # 350M params
+    'gpt2-large':   dict(n_layer=36, n_head=20, n_embd=1280), # 774M params
+    'gpt2-xl':      dict(n_layer=48, n_head=25, n_embd=1600), # 1558M params
+}[model_type]
+
+n_layer,n_head,n_embd = config_args['n_layer'], config_args['n_head'], config_args['n_embd']
+# n_layer = 12
+# n_head = 12
+# n_embd = 768
 dropout = 0.0 # for pretraining 0 is good, for finetuning try 0.1+
 bias = False # do we use bias inside LayerNorm and Linear layers?
 # adamw optimizer

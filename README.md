@@ -3,6 +3,9 @@
 ## install
 
 ```
+conda create -n gptvirus python=3.10
+conda activate gptvirus
+
 pip install torch numpy transformers datasets tiktoken wandb tqdm
 conda install pyyaml, idna, certifi
 ```
@@ -36,8 +39,21 @@ cd data/virus-v3
 python prepare.py
 ```
 ## run demo
+
+### Single-GPU training
+
 ```
-conda activate gptvirus_v2
+conda activate gptvirus
+# full version
+python train_virus.py config/train_gpt2_virus.py
+# mini version with 1% data and smaller gpt model for pre experiement
+python train_virus.py config/train_gpt2_virus_baby.py
+```
+
+### Multi-GPU training:
+Notablly, **--nproc_per_node=3** means using 3 GPUs, for normal server, **--nproc_per_node=8** is recommended
+```
+conda activate gptvirus
 # full version
 torchrun --standalone --nproc_per_node=3 train_virus.py config/train_gpt2_virus.py
 # mini version with 1% data and smaller gpt model for pre experiement

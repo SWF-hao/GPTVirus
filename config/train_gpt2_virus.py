@@ -10,7 +10,7 @@ wandb_run_name='gpt2-Medium-512-6bs-5accum'
 # 12 batch size * 1024 block size * 5 gradaccum * 8 GPUs = 491,520
 batch_size = 6
 block_size = 512
-gradient_accumulation_steps = 5*3 # reduced to 4 GPUs for smaller dataset
+gradient_accumulation_steps = 5*8 # reduced to 8 GPUs for smaller dataset
 
 # this makes total number of tokens be 300B
 max_iters = 600000

@@ -4,7 +4,36 @@
 
 ```
 pip install torch numpy transformers datasets tiktoken wandb tqdm
-conda  install pyyaml, idna, certifi
+conda install pyyaml, idna, certifi
+```
+## Prepare data
+
+You should put your data outside the GPTVirus folder
+```
+GPTVirus
+    |-data
+        |-shakespeare_char
+        |-virus
+        |-virus-v3
+        |-virus-v3-mini
+
+    |-config
+    |-out
+    |-.....
+virus_rna_sequence_with_taxonomy.txt
+```
+
+### Prepare the full data and minidata
+It will convert the txt data to tokenized bin. sequence
+```
+# prepare for the full data
+cd data/virus-v3
+python prepare.py
+```
+```
+# prepare for the mini data (1% data)
+cd data/virus-v3
+python prepare.py
 ```
 ## run demo
 ```

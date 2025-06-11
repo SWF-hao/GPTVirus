@@ -42,7 +42,7 @@ init_from = 'scratch' # 'scratch' or 'resume' or 'gpt2*'
 # wandb logging
 wandb_log = True # disabled by default
 wandb_project = 'gpt_virus'
-wandb_run_name = 'gpt2-m' # 'run' + str(time.time())
+wandb_run_name = 'gpt2-baby' # 'run' + str(time.time())
 # data
 # dataset = 'openwebtext'
 dataset = 'virus-v3-mini' # 'openwebtext', 'openwebtext2', 'virus', etc.
@@ -50,9 +50,10 @@ gradient_accumulation_steps = 5 * 8 # used to simulate larger batch sizes
 batch_size = 12 # if gradient_accumulation_steps > 1, this is the micro-batch size
 block_size = 1024
 # model
-model_type = 'gpt2-medium' # 'gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', or 'gpt2-124M'
+model_type = 'gpt2-baby' # 'gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', or 'gpt2-124M'
 
 config_args = {
+    'gpt2-baby':   dict(n_layer=6, n_head=6, n_embd=384),  # 8M params
     'gpt2':         dict(n_layer=12, n_head=12, n_embd=768),  # 124M params
     'gpt2-medium':  dict(n_layer=24, n_head=16, n_embd=1024), # 350M params
     'gpt2-large':   dict(n_layer=36, n_head=20, n_embd=1280), # 774M params
